@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "board.h"
 using namespace std;
 
@@ -7,6 +8,20 @@ class Game {
         Board board = Board();
         state player = CROSS;
         state winner = NONE;
+
+        Game() {}
+        Game(int compressedGame) {
+            board = Board(compressedGame);
+            player = static_cast<state>(compressedGame >> 18 & 0b11);
+            winner = static_cast<state>(compressedGame >> 20 & 0b11);
+        }
+
+        int compress() {
+            int compressedGame = board.compress();
+            compressedGame += (player << 18);
+            compressedGame += (winner << 20);
+            return compressedGame;
+        }
 
         void checkForWin() {
             auto b = board.board;
@@ -32,7 +47,7 @@ class Game {
                 return;
             }
             return;
-        }
+        } 
 
         void inputPlay() {
             board.print();
@@ -42,13 +57,27 @@ class Game {
             cout << "What's your play? ";
             cin >> x;
             cin >> y;
-            play(x, y);
+            play(y, x);
         }
 
-        void play(int x, int y) {
-            board.addMark(x, y, player);
+        void play(int y, int x) {
+            board.addMark(y, x, player);
             checkForWin();
             if (player == CROSS) player = CIRCLE;
             else player = CROSS;
+        }
+
+        void playOptions() {
+            int compressedGame = compress();
+            vector<int> games;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board.board[i][j] != NONE) continue;
+                    Game game = Game(compressedGame);
+                    game.play(i, j);
+                    games.push_back(game.compress());
+                }
+            }
+            cout << games[0] << endl;
         }
 };

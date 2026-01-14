@@ -4,8 +4,6 @@
 int main() {
     Game game = Game();
     game.inputPlay();
-    game.inputPlay();
-    game.inputPlay();
-    return 0;
+    game.board.print();
+    cout << game.compress();
 }
-
