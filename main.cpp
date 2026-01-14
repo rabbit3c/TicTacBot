@@ -1,9 +1,14 @@
 #include <iostream>
-#include "game.h"
+#include "bot.h"
+using namespace std;
 
 int main() {
     Game game = Game();
-    game.inputPlay();
-    game.board.print();
-    cout << game.compress();
+    while (game.winner == NONE) {
+        game.inputPlay();
+        evaluate(game);
+        cout << "Game is winning for: " << endl;
+        cout << ((game.evaluation == CROSS) ? "Cross" : ((game.evaluation == CIRCLE) ? "Circle" : "None")) << endl;
+    }
+    return 0;
 }
