@@ -3,6 +3,25 @@
 #include <vector>
 using namespace std;
 
+void evaluate(Game &game) {
+    game.evaluation = game.winner;
+    vector<int> games = game.findOptions();
+    if (games.empty()) return;
+
+    state eval = (game.player == CROSS) ? CIRCLE : CROSS;
+    for (int compressedGame : games) {
+        Game possibleGame = Game(compressedGame);
+        evaluate(possibleGame);
+        if (possibleGame.evaluation == game.player) {
+            game.evaluation = game.player;
+            return;
+        } 
+        if (possibleGame.evaluation == NONE) eval = NONE;
+    }
+    game.evaluation = eval;
+    return;  
+}
+
 int search(Game &game) {
     vector<int> games = game.findOptions();
     if (games.empty()) return 1;
@@ -13,12 +32,4 @@ int search(Game &game) {
         amount += search(futureGame);
     }
     return amount;
-}
-
-int main() {
-    Game game = Game(551313);
-    evaluate(game);
-    cout << "The game is winning for: " << endl;
-    cout << ((game.evaluation == CROSS) ? "Cross" : ((game.evaluation == CIRCLE) ? "Circle" : "None")) << endl;
-    return 0;
 }
