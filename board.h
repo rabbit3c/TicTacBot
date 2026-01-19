@@ -1,10 +1,5 @@
 #pragma once
-
-enum state {
-    NONE,
-    CROSS,
-    CIRCLE
-};
+#include "state.h"
 
 class Board {
     public: 

@@ -9,6 +9,7 @@ int main() {
         evaluate(game);
         cout << "Game is winning for: " << endl;
         cout << ((game.evaluation == CROSS) ? "Cross" : ((game.evaluation == CIRCLE) ? "Circle" : "None")) << endl;
+        cout << "Best Move: " << game.bestMove.toString() << endl;
     }
     return 0;
 }

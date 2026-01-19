@@ -47,8 +47,30 @@ vector<int> Game::findOptions() {
     return games;
 }
 
+vector<Move> Game::findMoves() {
+    vector<Move> moves;
+    if (winner != NONE) return moves;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board.board[i][j] != NONE) continue;
+            Move move = Move(i, j, player);
+            moves.push_back(move);
+        }
+    }
+
+    return moves;
+}
+
 void Game::play(int y, int x) {
     board.addMark(y, x, player);
+    checkForWin();
+    if (player == CROSS) player = CIRCLE;
+    else player = CROSS;
+}
+
+void Game::playMove(Move &move) {
+    board.addMark(move.y, move.x, move.player);
     checkForWin();
     if (player == CROSS) player = CIRCLE;
     else player = CROSS;
@@ -77,7 +99,7 @@ void Game::checkForWin() {
         setWinner(b[1][1]);
         return;
     }
-    if (b[0][2] == b[1][1] && b[1][1] == b[2][2] && b[1][3] != NONE) {
+    if (b[0][2] == b[1][1] && b[1][1] == b[2][0] && b[1][1] != NONE) {
         setWinner(b[1][1]);
         return;
     }

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "board.h"
+#include "move.h"
 using namespace std;
 
 class Game {
@@ -9,6 +10,7 @@ class Game {
         state player = CROSS;
         state winner = NONE;
         state evaluation = NONE;
+        Move bestMove = Move();
 
         Game();
         Game(int compressedGame);
@@ -18,6 +20,9 @@ class Game {
         void inputPlay();
 
         vector<int> findOptions();
+        vector<Move> findMoves();
+
+        void playMove(Move &move);
     
     private:
         void play(int y, int x);
