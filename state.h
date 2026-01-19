@@ -8,6 +8,6 @@ enum state {
     CIRCLE
 };
 
-state reverse(state state);
+void reverse(state &state);
 
 string stateToString(state state);

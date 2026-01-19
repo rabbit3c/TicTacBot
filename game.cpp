@@ -65,15 +65,13 @@ vector<Move> Game::findMoves() {
 void Game::play(int y, int x) {
     board.addMark(y, x, player);
     checkForWin();
-    if (player == CROSS) player = CIRCLE;
-    else player = CROSS;
+    reverse(player);
 }
 
 void Game::playMove(Move &move) {
     board.addMark(move.y, move.x, move.player);
     checkForWin();
-    if (player == CROSS) player = CIRCLE;
-    else player = CROSS;
+    reverse(player);
 }
 
 void Game::setWinner(state w) {

@@ -1,13 +1,15 @@
 #include "state.h"
 
-state reverse(state state) {
+void reverse(state &state) {
     switch (state) {
         case CROSS:
-            return CIRCLE;
+            state = CIRCLE;
+            return;
         case CIRCLE:
-            return CROSS;
+            state = CROSS;
+            return;
         default:
-            return NONE;
+            return;
     }
 }
 
