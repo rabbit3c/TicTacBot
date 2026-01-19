@@ -80,6 +80,8 @@ void Game::setWinner(state w) {
 
 void Game::checkForWin() {
     auto b = board.board;
+    if (findMoves().empty()) finished = true;
+
     for (int i = 0; i < 3; i++) {
         //Columns
         if (b[i][0] == b[i][1] && b[i][1] == b[i][2] && b[i][0] != NONE) {

@@ -7,10 +7,14 @@ using namespace std;
 class Game {
     public:
         Board board = Board();
+
         state player = CROSS;
         state winner = NONE;
         state evaluation = NONE;
+
         Move bestMove = Move();
+        
+        bool finished = false;
 
         Game();
         Game(int compressedGame);

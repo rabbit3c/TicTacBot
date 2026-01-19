@@ -4,12 +4,13 @@ using namespace std;
 
 int main() {
     Game game = Game();
-    while (game.winner == NONE) {
-        game.inputPlay();
+    while (game.winner == NONE && !game.finished) {
         evaluate(game);
         cout << "Game is winning for: " << endl;
         cout << stateToString(game.evaluation) << endl;
         cout << "Best Move: " << game.bestMove.toString() << endl;
+        
+        game.inputPlay();
     }
     return 0;
 }
