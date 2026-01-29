@@ -31,18 +31,16 @@ void Game::inputPlay() {
     play(y, x);
 }
 
-vector<int> Game::findOptions() {
-    vector<int> games;
+vector<pair<Move, Game>> Game::findOptions() {
+    vector<pair<Move, Game>> games;
     if (winner != NONE) return games;
 
-    int compressedGame = compress();
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (board.board[i][j] != NONE) continue;
-            Game game = Game(compressedGame);
-            game.play(i, j);
-            games.push_back(game.compress());
-        }
+    vector<Move> moves = findMoves();
+
+    for (Move move : moves) {
+        Game game = *this;
+        game.playMove(move);
+        games.emplace_back(move, game);
     }
     return games;
 }
@@ -76,11 +74,15 @@ void Game::playMove(Move &move) {
 
 void Game::setWinner(state w) {
     winner = w;
+    movesToFinish = 0;
 }
 
 void Game::checkForWin() {
     auto b = board.board;
-    if (findMoves().empty()) finished = true;
+    if (findMoves().empty()) {
+        finished = true;
+        movesToFinish = 0;
+    }
 
     for (int i = 0; i < 3; i++) {
         //Columns

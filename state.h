@@ -10,4 +10,6 @@ enum state {
 
 void reverse(state &state);
 
+state inverse(state state);
+
 string stateToString(state state);

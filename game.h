@@ -12,9 +12,10 @@ class Game {
         state winner = NONE;
         state evaluation = NONE;
 
-        Move bestMove = Move();
+        Move bestMove;
         
         bool finished = false;
+        int movesToFinish;
 
         Game();
         Game(int compressedGame);
@@ -23,7 +24,7 @@ class Game {
 
         void inputPlay();
 
-        vector<int> findOptions();
+        vector<pair<Move, Game>> findOptions();
         vector<Move> findMoves();
 
         void playMove(Move &move);
