@@ -10,18 +10,32 @@ void evaluate(Game &game) {
 
     state eval = inverse(game.player);
     game.bestMove = turns[0].first;
+    game.movesToFinish = turns[0].second.movesToFinish + 1;
 
     for (pair<Move, Game> turn : turns) {
         evaluate(turn.second);
         if (turn.second.evaluation == game.player) {
-            game.evaluation = game.player;
-            game.bestMove = turn.first;
-            return;
+            if (eval != game.player || game.movesToFinish > turn.second.movesToFinish + 1) {
+                eval = game.player;
+                game.bestMove = turn.first;
+                game.movesToFinish = turn.second.movesToFinish + 1;
+                continue;
+            }
         } 
-        if (turn.second.evaluation == NONE) {
-            game.bestMove = turn.first;
-            eval = NONE;
-        } 
+        if (turn.second.evaluation == NONE && eval != game.player) {
+            if (eval != NONE || game.movesToFinish < turn.second.movesToFinish + 1) {
+                eval = NONE;
+                game.bestMove = turn.first;
+                game.movesToFinish = turn.second.movesToFinish + 1;
+                continue;
+            }
+        }
+        if (turn.second.evaluation == inverse(game.player) && eval == inverse(game.player)) {
+            if (game.movesToFinish < turn.second.movesToFinish + 1) {
+                game.bestMove = turn.first;
+                game.movesToFinish = turn.second.movesToFinish + 1;
+            }
+        }
     }
     game.evaluation = eval;
     return;  
