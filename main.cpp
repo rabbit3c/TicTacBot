@@ -12,5 +12,7 @@ int main() {
         
         game.inputPlay();
     }
+    cout << "\n" << stateToString(game.winner) << " won!" << endl;
+    game.board.print();
     return 0;
 }
